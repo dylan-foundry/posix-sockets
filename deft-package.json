@@ -1,0 +1,15 @@
+{
+  "name": "posix-sockets",
+  "description": "",
+  "keywords": [
+    "sockets",
+    "networking",
+    "tcp",
+    "udp"
+  ],
+  "license": "MIT",
+  "default-target": "posix-sockets",
+  "tests": [
+    "posix-sockets-test-suite-app"
+  ]
+}
