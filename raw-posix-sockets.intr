@@ -58,6 +58,8 @@ define interface
       "INET6_ADDRSTRLEN",
       "IPPROTO_TCP",
       "NI_DGRAM",
+      "NI_MAXHOST",
+      "NI_MAXSERV",
       "NI_NAMEREQD",
       "NI_NOFQDN",
       "NI_NUMERICHOST",
