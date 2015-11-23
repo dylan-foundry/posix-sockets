@@ -12,11 +12,6 @@ define module posix-sockets
          address-info-socket-address,
          address-info-canonical-name;
 
-  export <internet-address>,
-         <ipv4-address>,
-         <ipv6-address>,
-         internet-address-data;
-
   export <socket-address>,
          socket-address-family,
          socket-address-port,

@@ -39,8 +39,6 @@ define interface
       "setsockopt",
       "shutdown",
       "socket",
-      "struct in_addr",
-      "struct in6_addr",
       "struct sockaddr",
       "struct sockaddr_in",
       "struct sockaddr_in6"
