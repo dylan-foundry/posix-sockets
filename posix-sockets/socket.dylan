@@ -7,3 +7,9 @@ define primary class <socket> (<object>)
   constant slot socket-file-descriptor :: <integer>,
     required-init-keyword: file-descriptor:;
 end;
+
+define class <bound-socket> (<socket>)
+end;
+
+define class <server-socket> (<bound-socket>)
+end;

@@ -17,6 +17,8 @@ define module posix-sockets
          socket-address-port;
 
   export <socket>,
+         <bound-socket>,
+         <server-socket>,
          socket-file-descriptor,
          socket,
          bind,

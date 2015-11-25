@@ -13,20 +13,24 @@ end method socket;
 
 define inline method bind
     (socket :: <socket>, socket-address :: <socket-address>)
- => (res)
-  %bind(socket.socket-file-descriptor,
-        socket-address.socket-address-data,
-        size-of(<sockaddr>));
+ => (socket :: <bound-socket>, res)
+  let fd = socket.socket-file-descriptor;
+  let res = %bind(fd, socket-address.socket-address-data, size-of(<sockaddr>));
+  let socket = make(<bound-socket>, file-descriptor: fd);
+  values(socket, res)
 end method bind;
 
 define inline method listen
-    (socket :: <socket>, backlog :: <integer>)
- => (res)
-  %listen(socket.socket-file-descriptor, backlog)
+    (socket :: <bound-socket>, backlog :: <integer>)
+ => (socket :: <server-socket>, res)
+  let fd = socket.socket-file-descriptor;
+  let res = %listen(fd, backlog);
+  let socket = make(<server-socket>, file-descriptor: fd);
+  values(socket, res)
 end method listen;
 
 define inline method accept
-    (server-socket :: <socket>)
+    (server-socket :: <server-socket>)
  => (socket :: <socket>)
   with-stack-structure(their-address :: <sockaddr*>)
     clear-memory!(their-address, size-of(<sockaddr>));
