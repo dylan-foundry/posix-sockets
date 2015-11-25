@@ -41,7 +41,8 @@ define interface
       "socket",
       "struct sockaddr",
       "struct sockaddr_in",
-      "struct sockaddr_in6"
+      "struct sockaddr_in6",
+      "struct sockaddr_storage"
     },
     import: {
       "AF_INET",
@@ -106,4 +107,10 @@ define interface
   function "setsockopt" => %setsockopt;
   function "socket" => %socket;
   function "shutdown" => %shutdown;
+  struct "struct sockaddr_in",
+    pointer-type-name: <sockaddr-in*>;
+  struct "struct sockaddr_in6",
+    pointer-type-name: <sockaddr-in6*>;
+  struct "struct sockaddr_storage",
+    pointer-type-name: <sockaddr-storage*>;
 end interface;
