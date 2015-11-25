@@ -12,6 +12,4 @@ define primary class <socket-address> (<object>)
     required-init-keyword: data:;
   constant slot socket-address-data-length :: <integer>,
     required-init-keyword: data-length:;
-  constant slot socket-address-internet-address,
-    required-init-keyword: internet-address:;
 end;

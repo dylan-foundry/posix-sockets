@@ -14,8 +14,7 @@ define module posix-sockets
 
   export <socket-address>,
          socket-address-family,
-         socket-address-port,
-         socket-address-internet-address;
+         socket-address-port;
 
   export <socket>,
          socket-file-descriptor,
