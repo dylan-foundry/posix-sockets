@@ -6,4 +6,5 @@ Files: library
        raw-posix-sockets
        socket-address
        address-info
-       sockets
+       socket
+       bindings

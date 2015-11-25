@@ -1,12 +1,7 @@
 Module: posix-sockets
-Synopsis: Auto-generated bindings for the POSIX sockets API.
+Synopsis: Bindings for the raw functions.
 Author: Bruce Mitchener, Jr.
 Copyright: See LICENSE file in this distribution.
-
-define primary class <socket> (<object>)
-  constant slot socket-file-descriptor :: <integer>,
-    required-init-keyword: file-descriptor:;
-end;
 
 define inline method socket
     (address-family :: <integer>, socket-type :: <integer>,
@@ -63,3 +58,4 @@ define inline method shutdown-socket
  => ()
   %shutdown(socket.socket-file-descriptor, how);
 end method shutdown-socket;
+
