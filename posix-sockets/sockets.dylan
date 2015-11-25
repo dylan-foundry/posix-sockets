@@ -9,7 +9,8 @@ define primary class <socket> (<object>)
 end;
 
 define inline method socket
-    (address-family, socket-type, protocol)
+    (address-family :: <integer>, socket-type :: <integer>,
+     protocol :: <integer>)
  => (socket :: <socket>)
   let fd = %socket(address-family, socket-type, protocol);
   make(<socket>, file-descriptor: fd)
