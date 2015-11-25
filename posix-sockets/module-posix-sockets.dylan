@@ -20,6 +20,7 @@ define module posix-sockets
   export <socket>,
          socket-file-descriptor,
          socket,
+         bind,
          listen,
          accept,
          connect,

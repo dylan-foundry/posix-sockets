@@ -16,6 +16,14 @@ define inline method socket
   make(<socket>, file-descriptor: fd)
 end method socket;
 
+define inline method bind
+    (socket :: <socket>, socket-address :: <socket-address>)
+ => (res)
+  %bind(socket.socket-file-descriptor,
+        socket-address.socket-address-data,
+        size-of(<sockaddr>));
+end method bind;
+
 define inline method listen
     (socket :: <socket>, backlog :: <integer>)
  => (res)
