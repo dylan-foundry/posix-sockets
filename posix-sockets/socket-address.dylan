@@ -50,6 +50,10 @@ define sealed generic socket-address-port
     (socket-address :: <socket-address>)
  => (port :: false-or(<integer>));
 
+define sealed generic socket-address-internet-address
+    (socket-address :: <socket-address>)
+ => (internet-address);
+
 define sealed class <socket-inet-address> (<socket-address>)
 end class;
 
@@ -60,8 +64,22 @@ define sealed method socket-address-port
   sockaddr-in$sin-port(s*)
 end method socket-address-port;
 
+define sealed method socket-address-internet-address
+    (sa :: <socket-inet-address>)
+ => (internet-address)
+  let s* = pointer-cast(<sockaddr-in*>, sa.socket-address-sockaddr);
+  sockaddr-in$sin-addr(s*)
+end method socket-address-internet-address;
+
 define sealed class <socket-inet6-address> (<socket-address>)
 end class;
+
+define sealed method socket-address-internet-address
+    (sa :: <socket-inet6-address>)
+ => (internet-address)
+  let s* = pointer-cast(<sockaddr-in6*>, sa.socket-address-sockaddr);
+  sockaddr-in6$sin6-addr(s*)
+end method socket-address-internet-address;
 
 define sealed method socket-address-port
     (socket-address :: <socket-inet6-address>)
