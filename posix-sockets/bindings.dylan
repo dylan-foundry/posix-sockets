@@ -52,13 +52,15 @@ define inline method socket
 end method socket;
 
 define inline method bind
-    (socket :: <unbound-socket>, sockaddr :: <socket-address>)
+    (socket :: <unbound-socket>, sa :: <socket-address>)
  => (socket :: <bound-socket>, res)
   let fd = socket.socket-file-descriptor;
   let res = %bind(fd,
-                  sockaddr.socket-address-sockaddr,
-                  sockaddr.socket-address-sockaddr-length);
-  let socket = make(<bound-socket>, file-descriptor: fd);
+                  sa.socket-address-sockaddr,
+                  sa.socket-address-sockaddr-length);
+  let socket = make(<bound-socket>,
+                    file-descriptor: fd,
+                    socket-address: sa);
   values(socket, res)
 end method bind;
 
@@ -67,7 +69,9 @@ define inline method listen
  => (socket :: <server-socket>, res)
   let fd = socket.socket-file-descriptor;
   let res = %listen(fd, backlog);
-  let socket = make(<server-socket>, file-descriptor: fd);
+  let socket = make(<server-socket>,
+                    file-descriptor: fd,
+                    socket-address: socket.socket-address);
   values(socket, res)
 end method listen;
 

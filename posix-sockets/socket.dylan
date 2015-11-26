@@ -15,12 +15,16 @@ define sealed domain make(singleton(<unbound-socket>));
 define sealed domain initialize(<unbound-socket>);
 
 define class <bound-socket> (<socket>)
+  constant slot socket-address :: <socket-address>,
+    required-init-keyword: socket-address:;
 end;
 
 define sealed domain make(singleton(<bound-socket>));
 define sealed domain initialize(<bound-socket>);
 
 define class <server-socket> (<socket>)
+  constant slot socket-address :: <socket-address>,
+    required-init-keyword: socket-address:;
 end;
 
 define sealed domain make(singleton(<server-socket>));
