@@ -46,13 +46,13 @@ end method get-address-info;
 define inline method socket
     (address-family :: <integer>, socket-type :: <integer>,
      protocol :: <integer>)
- => (socket :: <socket>)
+ => (socket :: <unbound-socket>)
   let fd = %socket(address-family, socket-type, protocol);
-  make(<socket>, file-descriptor: fd)
+  make(<unbound-socket>, file-descriptor: fd)
 end method socket;
 
 define inline method bind
-    (socket :: <socket>, sockaddr :: <socket-address>)
+    (socket :: <unbound-socket>, sockaddr :: <socket-address>)
  => (socket :: <bound-socket>, res)
   let fd = socket.socket-file-descriptor;
   let res = %bind(fd,
@@ -87,7 +87,7 @@ define inline method accept
 end method accept;
 
 define inline method connect
-    (socket :: <socket>, address-info :: <address-info>)
+    (socket :: <unbound-socket>, address-info :: <address-info>)
  => (res)
   let sockaddr = address-info.address-info-socket-address;
   %connect(socket.socket-file-descriptor,

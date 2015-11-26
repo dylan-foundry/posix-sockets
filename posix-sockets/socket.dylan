@@ -8,6 +8,12 @@ define primary class <socket> (<object>)
     required-init-keyword: file-descriptor:;
 end;
 
+define class <unbound-socket> (<socket>)
+end;
+
+define sealed domain make(singleton(<unbound-socket>));
+define sealed domain initialize(<unbound-socket>);
+
 define class <bound-socket> (<socket>)
 end;
 

@@ -60,6 +60,7 @@ define module posix-sockets
          socket-address-port;
 
   export <socket>,
+         <unbound-socket>,
          <bound-socket>,
          <server-socket>,
          socket-file-descriptor,
