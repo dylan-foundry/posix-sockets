@@ -20,7 +20,7 @@ end;
 define sealed domain make(singleton(<bound-socket>));
 define sealed domain initialize(<bound-socket>);
 
-define class <server-socket> (<bound-socket>)
+define class <server-socket> (<socket>)
 end;
 
 define sealed domain make(singleton(<server-socket>));
