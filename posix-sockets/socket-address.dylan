@@ -6,10 +6,10 @@ Copyright: See LICENSE file in this distribution.
 define abstract primary class <socket-address> (<object>)
   constant slot socket-address-family,
     required-init-keyword: family:;
-  constant slot socket-address-data :: <sockaddr*>,
-    required-init-keyword: data:;
-  constant slot socket-address-data-length :: <integer>,
-    required-init-keyword: data-length:;
+  constant slot socket-address-sockaddr :: <sockaddr*>,
+    required-init-keyword: sockaddr:;
+  constant slot socket-address-sockaddr-length :: <integer>,
+    required-init-keyword: sockaddr-length:;
 end class;
 
 define sealed generic socket-address-port
@@ -22,7 +22,7 @@ end class;
 define sealed method socket-address-port
     (socket-address :: <socket-inet-address>)
  => (port :: false-or(<integer>))
-  let s* = pointer-cast(<sockaddr-in*>, socket-address-data(socket-address));
+  let s* = pointer-cast(<sockaddr-in*>, socket-address-sockaddr(socket-address));
   sockaddr-in$sin-port(s*)
 end method socket-address-port;
 
@@ -32,7 +32,7 @@ end class;
 define sealed method socket-address-port
     (socket-address :: <socket-inet6-address>)
  => (port :: false-or(<integer>))
-  let s* = pointer-cast(<sockaddr-in6*>, socket-address-data(socket-address));
+  let s* = pointer-cast(<sockaddr-in6*>, socket-address-sockaddr(socket-address));
   sockaddr-in6$sin6-port(s*)
 end method socket-address-port;
 

@@ -12,10 +12,12 @@ define inline method socket
 end method socket;
 
 define inline method bind
-    (socket :: <socket>, socket-address :: <socket-address>)
+    (socket :: <socket>, sockaddr :: <socket-address>)
  => (socket :: <bound-socket>, res)
   let fd = socket.socket-file-descriptor;
-  let res = %bind(fd, socket-address.socket-address-data, size-of(<sockaddr>));
+  let res = %bind(fd,
+                  sockaddr.socket-address-sockaddr,
+                  sockaddr.socket-address-sockaddr-length);
   let socket = make(<bound-socket>, file-descriptor: fd);
   values(socket, res)
 end method bind;
@@ -49,8 +51,8 @@ define inline method connect
  => (res)
   let sockaddr = address-info.address-info-socket-address;
   %connect(socket.socket-file-descriptor,
-           sockaddr.socket-address-data,
-           sockaddr.socket-address-data-length)
+           sockaddr.socket-address-sockaddr,
+           sockaddr.socket-address-sockaddr-length)
 end method connect;
 
 define inline method close-socket (socket :: <socket>) => ()
