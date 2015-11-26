@@ -52,7 +52,8 @@ define module posix-sockets
          address-info-socket-type,
          address-info-protocol,
          address-info-socket-address,
-         address-info-canonical-name;
+         address-info-canonical-name,
+         get-address-info;
 
   export <socket-address>,
          socket-address-family,

@@ -3,6 +3,46 @@ Synopsis: Bindings for the raw functions.
 Author: Bruce Mitchener, Jr.
 Copyright: See LICENSE file in this distribution.
 
+define method get-address-info
+    (hostname :: <string>,
+     servname :: <string>,
+     #key family-hint :: <integer> = $PF-UNSPEC,
+          socktype-hint :: <integer> = 0,
+          protocol-hint :: <integer> = 0,
+          flags-hint :: <integer> = 0)
+ => (addresses :: limited(<vector>, of: <address-info>))
+  with-stack-structure(hints :: <addrinfo*>)
+    clear-memory!(hints, size-of(<addrinfo>));
+    addrinfo$ai-family(hints) := family-hint;
+    addrinfo$ai-socktype(hints) := socktype-hint;
+    addrinfo$ai-protocol(hints) := protocol-hint;
+    addrinfo$ai-flags(hints) := flags-hint;
+    with-stack-structure(addr-list :: <addrinfo**>)
+      let res = %getaddrinfo(hostname, servname, hints, addr-list);
+      let addresses = make(<stretchy-vector>);
+      let addr :: <addrinfo*> = addr-list[0];
+      while (~null-pointer?(addr))
+        let family = addrinfo$ai-family(addr);
+        let raw-sockaddr = addrinfo$ai-addr(addr);
+        let addrlen = addrinfo$ai-addrlen(addr);
+        let sockaddr = make(<socket-address>,
+                            family: family,
+                            sockaddr: raw-sockaddr,
+                            sockaddr-length: addrlen);
+        add!(addresses, make(<address-info>,
+                             family: family,
+                             socket-type: addrinfo$ai-socktype(addr),
+                             protocol: addrinfo$ai-protocol(addr),
+                             socket-address: sockaddr,
+                             canonical-name: addrinfo$ai-canonname(addr)));
+        addr := addrinfo$ai-next(addr);
+      end while;
+      %freeaddrinfo(addr-list[0]);
+      as(limited(<vector>, of: <address-info>), addresses)
+    end with-stack-structure
+  end with-stack-structure
+end method get-address-info;
+
 define inline method socket
     (address-family :: <integer>, socket-type :: <integer>,
      protocol :: <integer>)
