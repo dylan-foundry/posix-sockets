@@ -20,8 +20,6 @@ Copyright: See LICENSE file in this distribution.
 // to the object whose storage contains that address.
 
 define abstract primary class <socket-address> (<object>)
-  constant slot socket-address-family,
-    required-init-keyword: family:;
   constant slot socket-address-sockaddr-buffer :: <byte-vector>,
     required-init-keyword: buffer:;
   constant slot socket-address-sockaddr :: <sockaddr*>,
@@ -32,6 +30,21 @@ end class;
 
 // We never directly reference this
 ignore(socket-address-sockaddr-buffer);
+
+define sealed method raw-socket-address-family
+    (sockaddr :: <sockaddr*>)
+ => (family :: <integer>)
+  // We're naughty here and just cast to <sockaddr-in*> because the family
+  // is at the same offset within the structure for all sockaddr structs.
+  let sa = pointer-cast(<sockaddr-in*>, sockaddr);
+  sockaddr-in$sin-family(sa)
+end;
+
+define sealed method socket-address-family
+    (socket-address :: <socket-address>)
+ => (family :: <integer>)
+  raw-socket-address-family(socket-address-sockaddr(socket-address))
+end;
 
 define sealed generic socket-address-port
     (socket-address :: <socket-address>)
@@ -69,11 +82,11 @@ end method socket-address-port;
 define sealed method make
     (class == <socket-address>,
      #rest init-keywords,
-     #key family :: <integer>,
-          sockaddr :: <sockaddr*>,
+     #key sockaddr :: <sockaddr*>,
           sockaddr-length :: <integer>,
      #all-keys)
  => (address :: <socket-address>)
+  let family = raw-socket-address-family(sockaddr);
   let sockaddr-class
     = select (family)
         $AF-INET => <socket-inet-address>;
@@ -83,6 +96,8 @@ define sealed method make
   let buf = make(<byte-vector>, size: sockaddr-length);
   let buf-sockaddr = make(<sockaddr*>, address: byte-storage-address(buf));
   copy-bytes!(buf-sockaddr, sockaddr, buf.size);
-  make(sockaddr-class, family: family, buffer: buf,
-       sockaddr: buf-sockaddr, sockaddr-length: sockaddr-length)
+  make(sockaddr-class,
+       buffer: buf,
+       sockaddr: buf-sockaddr,
+       sockaddr-length: sockaddr-length)
 end method make;
