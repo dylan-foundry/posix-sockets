@@ -58,6 +58,8 @@ define interface
       "INET_ADDRSTRLEN",
       "INET6_ADDRSTRLEN",
       "IPPROTO_TCP",
+      "MSG_OOB",
+      "MSG_DONTROUTE",
       "NI_DGRAM",
       "NI_MAXHOST",
       "NI_MAXSERV",

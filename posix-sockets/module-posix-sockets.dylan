@@ -18,6 +18,8 @@ define module posix-sockets
     $INET-ADDRSTRLEN,
     $INET6-ADDRSTRLEN,
     $IPPROTO-TCP,
+    $MSG-OOB,
+    $MSG-DONTROUTE,
     $NI-DGRAM,
     $NI-MAXHOST,
     $NI-MAXSERV,
