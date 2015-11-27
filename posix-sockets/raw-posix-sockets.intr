@@ -27,6 +27,7 @@ define interface
       "gethostname",
       "getnameinfo",
       "getpeername",
+      "getsockname",
       "getsockopt",
       "inet_ntop",
       "inet_pton",
