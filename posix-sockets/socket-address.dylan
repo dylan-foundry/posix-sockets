@@ -66,9 +66,15 @@ end method socket-address-port;
 
 define sealed method socket-address-internet-address
     (sa :: <socket-inet-address>)
- => (internet-address)
-  let s* = pointer-cast(<sockaddr-in*>, sa.socket-address-sockaddr);
-  sockaddr-in$sin-addr(s*)
+ => (internet-address :: <string>)
+  let sa = pointer-cast(<sockaddr-in*>, sa.socket-address-sockaddr);
+  let ia = sockaddr-in$sin-addr(sa);
+  let buf = make(<byte-vector>, size: $INET-ADDRSTRLEN,
+                 fill: as(<integer>, '\0'));
+  with-C-string(ip-address = buf)
+    %inet-ntop($AF-INET, ia, ip-address, $INET-ADDRSTRLEN);
+    as(<byte-string>, ip-address)
+  end with-C-string
 end method socket-address-internet-address;
 
 define sealed class <socket-inet6-address> (<socket-address>)
@@ -76,9 +82,15 @@ end class;
 
 define sealed method socket-address-internet-address
     (sa :: <socket-inet6-address>)
- => (internet-address)
-  let s* = pointer-cast(<sockaddr-in6*>, sa.socket-address-sockaddr);
-  sockaddr-in6$sin6-addr(s*)
+ => (internet-address :: <string>)
+  let sa = pointer-cast(<sockaddr-in6*>, sa.socket-address-sockaddr);
+  let ia = sockaddr-in6$sin6-addr(sa);
+  let buf = make(<byte-vector>, size: $INET6-ADDRSTRLEN,
+                 fill: as(<integer>, '\0'));
+  with-C-string(ip-address = buf)
+    %inet-ntop($AF-INET6, ia, ip-address, $INET6-ADDRSTRLEN);
+    as(<byte-string>, ip-address)
+  end with-C-string
 end method socket-address-internet-address;
 
 define sealed method socket-address-port
