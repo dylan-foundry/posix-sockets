@@ -131,3 +131,29 @@ define sealed method make
        sockaddr: buf-sockaddr,
        sockaddr-length: sockaddr-length)
 end method make;
+
+define method as
+    (cls == <string>, sa :: <socket-inet-address>)
+ => (string :: <string>)
+  concatenate(sa.socket-address-internet-address,
+              ":",
+              integer-to-string(sa.socket-address-port))
+end method as;
+
+define method as
+    (cls == <string>, sa :: <socket-inet6-address>)
+ => (string :: <string>)
+  concatenate("[", sa.socket-address-internet-address, "]",
+              ":",
+              integer-to-string(sa.socket-address-port))
+end method as;
+
+define method print-object
+    (sa :: <socket-address>, stream :: <stream>)
+ => ()
+  write-element(stream, '{');
+  write(stream, sa.object-class.debug-name);
+  write-element(stream, ' ');
+  write(stream, as(<string>, sa));
+  write-element(stream, '}');
+end method print-object;

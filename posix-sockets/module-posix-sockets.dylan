@@ -3,6 +3,9 @@ Module: dylan-user
 define module posix-sockets
   use common-dylan;
   use c-ffi;
+  use dylan-extensions;
+  use print;
+  use streams;
 
   use %posix-sockets, export: {
     $AF-INET,
