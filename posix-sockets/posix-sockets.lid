@@ -5,6 +5,9 @@ Files: library
        module-posix-sockets
        raw-posix-sockets
        socket-address
+       socket-address-inet
+       socket-address-inet6
+       socket-address-unknown
        address-info
        socket
        bindings
