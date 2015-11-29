@@ -72,7 +72,9 @@ define module posix-sockets
          <bound-socket>,
          <server-socket>,
          socket-file-descriptor,
-         socket,
+         socket-address;
+
+  export socket,
          bind,
          listen,
          accept,
