@@ -26,7 +26,6 @@ define method get-address-info
         let raw-sockaddr = addrinfo$ai-addr(addr);
         let addrlen = addrinfo$ai-addrlen(addr);
         let sockaddr = make(<socket-address>,
-                            family: family,
                             sockaddr: raw-sockaddr,
                             sockaddr-length: addrlen);
         add!(addresses, make(<address-info>,
