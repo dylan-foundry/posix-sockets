@@ -29,3 +29,13 @@ end;
 
 define sealed domain make(singleton(<server-socket>));
 define sealed domain initialize(<server-socket>);
+
+define class <ready-socket> (<socket>)
+  constant slot local-socket-address :: <socket-address>,
+    required-init-keyword: local-socket-address:;
+  constant slot peer-socket-address :: <socket-address>,
+    required-init-keyword: peer-socket-address:;
+end;
+
+define sealed domain make(singleton(<ready-socket>));
+define sealed domain initialize(<ready-socket>);

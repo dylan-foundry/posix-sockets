@@ -81,4 +81,8 @@ define module posix-sockets
          connect,
          close-socket,
          shutdown-socket;
+
+  export <ready-socket>,
+         local-socket-address,
+         peer-socket-address;
 end module posix-sockets;

@@ -85,7 +85,13 @@ define inline method accept
       let fd = %accept(server-socket.socket-file-descriptor,
                        their-address,
                        address-size);
-      make(<socket>, file-descriptor: fd)
+      let sa = make(<socket-address>,
+                    sockaddr: their-address,
+                    sockaddr-length: pointer-value(address-size));
+      make(<ready-socket>,
+           file-descriptor: fd,
+           local-socket-address: server-socket.socket-address,
+           peer-socket-address: sa);
     end with-stack-structure
   end with-stack-structure
 end method accept;
