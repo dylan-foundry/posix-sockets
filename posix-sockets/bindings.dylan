@@ -97,11 +97,19 @@ end method accept;
 
 define inline method connect
     (socket :: <unbound-socket>, address-info :: <address-info>)
- => (res)
+ => (socket :: <ready-socket>, res)
+  // This should actually be returning a <pending-socket> if
+  // the socket is a non-blocking socket.
+  let fd = socket.socket-file-descriptor;
   let sockaddr = address-info.address-info-socket-address;
-  %connect(socket.socket-file-descriptor,
-           sockaddr.socket-address-sockaddr,
-           sockaddr.socket-address-sockaddr-length)
+  let res = %connect(fd,
+                     sockaddr.socket-address-sockaddr,
+                     sockaddr.socket-address-sockaddr-length);
+  let s = make(<ready-socket>,
+               file-descriptor: fd,
+               local-socket-address: get-sock-name(socket),
+               peer-socket-address: sockaddr);
+  values(s, res)
 end method connect;
 
 define inline method close-socket (socket :: <socket>) => ()
