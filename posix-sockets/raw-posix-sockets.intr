@@ -108,6 +108,7 @@ define interface
   function "gethostname" => %gethostname;
   function "getnameinfo" => %getnameinfo;
   function "getpeername" => %getpeername;
+  function "getsockname" => %getsockname;
   function "getsockopt" => %getsockopt;
   function "inet_ntop" => %inet-ntop;
   function "inet_pton" => %inet-pton;
