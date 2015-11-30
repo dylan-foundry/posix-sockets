@@ -114,3 +114,34 @@ define inline method shutdown-socket
   %shutdown(socket.socket-file-descriptor, how);
 end method shutdown-socket;
 
+define method get-sock-name
+    (socket :: <socket>)
+ => (sa :: <socket-address>)
+  with-stack-structure(rsa :: <sockaddr*>)
+    clear-memory!(rsa, size-of(<sockaddr-storage>));
+    with-stack-structure(rsa-size :: <C-int*>)
+      pointer-value(rsa-size) := size-of(<sockaddr-storage>);
+      %getsockname(socket.socket-file-descriptor, rsa, rsa-size);
+      make(<socket-address>,
+           sockaddr: rsa,
+           sockaddr-length: pointer-value(rsa-size))
+    end with-stack-structure
+  end with-stack-structure
+end;
+
+define method get-peer-name
+    (socket :: <socket>)
+ => (sa :: <socket-address>)
+  with-stack-structure(rsa :: <sockaddr*>)
+    clear-memory!(rsa, size-of(<sockaddr-storage>));
+    with-stack-structure(rsa-size :: <C-int*>)
+      pointer-value(rsa-size) := size-of(<sockaddr-storage>);
+      %getpeername(socket.socket-file-descriptor, rsa, rsa-size);
+      make(<socket-address>,
+           sockaddr: rsa,
+           sockaddr-length: pointer-value(rsa-size))
+    end with-stack-structure
+  end with-stack-structure
+end;
+
+ignore(get-peer-name); // Nothing needs to use this yet.
