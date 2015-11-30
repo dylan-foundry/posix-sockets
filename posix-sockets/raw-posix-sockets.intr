@@ -3,6 +3,40 @@ Synopsis: Auto-generated bindings for the POSIX sockets API.
 Author: Bruce Mitchener, Jr.
 Copyright: See LICENSE file in this distribution.
 
+define class <socket-error> (<simple-error>)
+  constant slot socket-error-status :: <integer>,
+    required-init-keyword: status:;
+  constant slot socket-error-message :: <string>,
+    init-keyword: message:,
+    init-value: "Unknown error";
+end;
+
+// These aren't exported yet.
+ignore(socket-error-status);
+ignore(socket-error-message);
+
+define inline C-function io-errno
+  result val :: <C-int>;
+  c-name: "io_errno";
+end C-function;
+
+define C-mapped-subtype <socket-status> (<C-int>)
+  import-map <integer>,
+    import-function:
+      method (result :: <integer>) => (checked :: <integer>)
+        if ((result < 0) & (result ~= $EAGAIN))
+          let errno = io-errno();
+          let message = as(<byte-string>, strerror(errno));
+          error(make(<socket-error>,
+                     status: errno, message: message,
+                     format-string: "Socket error (%d): %s",
+                     format-arguments: vector(errno, message)))
+        else
+          result
+        end
+      end;
+end;
+
 define interface
   #include {
       "sys/socket.h",
@@ -12,7 +46,9 @@ define interface
       "arpa/inet.h",
       "netdb.h",
       "unistd.h",
-      "sys/select.h"
+      "sys/select.h",
+      "string.h",
+      "errno.h"
     },
     inline-functions: inline,
     equate: {"char *" => <C-string>},
@@ -96,31 +132,56 @@ define interface
       "SHUT_RDWR",
       "SHUT_WR",
       "TCP_NODELAY"
+    },
+    import: {
+      "strerror",
+      "EAGAIN"
     };
 
-  function "accept" => %accept;
-  function "bind" => %bind;
-  function "close" => %close;
-  function "connect" => %connect;
+  function "getnameinfo" => %getnameinfo;
   function "freeaddrinfo" => %freeaddrinfo;
   function "gai_strerror" => %gai-strerror;
   function "getaddrinfo" => %getaddrinfo;
-  function "gethostname" => %gethostname;
-  function "getnameinfo" => %getnameinfo;
-  function "getpeername" => %getpeername;
-  function "getsockname" => %getsockname;
-  function "getsockopt" => %getsockopt;
+
   function "inet_ntop" => %inet-ntop;
-  function "inet_pton" => %inet-pton;
-  function "listen" => %listen;
-  function "recv" => %recv;
-  function "recvfrom" => %recvfrom;
-  function "select" => %select;
-  function "send" => %send;
-  function "sendto" => %sendto;
-  function "setsockopt" => %setsockopt;
-  function "socket" => %socket;
-  function "shutdown" => %shutdown;
+
+  function "accept" => %accept,
+    map-result: <socket-status>;
+  function "bind" => %bind,
+    map-result: <socket-status>;
+  function "close" => %close,
+    map-result: <socket-status>;
+  function "connect" => %connect,
+    map-result: <socket-status>;
+  function "gethostname" => %gethostname,
+    map-result: <socket-status>;
+  function "getpeername" => %getpeername,
+    map-result: <socket-status>;
+  function "getsockname" => %getsockname,
+    map-result: <socket-status>;
+  function "getsockopt" => %getsockopt,
+    map-result: <socket-status>;
+  function "inet_pton" => %inet-pton,
+    map-result: <socket-status>;
+  function "listen" => %listen,
+    map-result: <socket-status>;
+  function "recv" => %recv,
+    map-result: <socket-status>;
+  function "recvfrom" => %recvfrom,
+    map-result: <socket-status>;
+  function "select" => %select,
+    map-result: <socket-status>;
+  function "send" => %send,
+    map-result: <socket-status>;
+  function "sendto" => %sendto,
+    map-result: <socket-status>;
+  function "setsockopt" => %setsockopt,
+    map-result: <socket-status>;
+  function "socket" => %socket,
+    map-result: <socket-status>;
+  function "shutdown" => %shutdown,
+    map-result: <socket-status>;
+
   struct "struct sockaddr_in",
     pointer-type-name: <sockaddr-in*>;
   struct "struct sockaddr_in6",
