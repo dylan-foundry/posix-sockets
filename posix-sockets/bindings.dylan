@@ -52,26 +52,24 @@ end method socket;
 
 define inline method bind
     (socket :: <unbound-socket>, sa :: <socket-address>)
- => (socket :: <bound-socket>, res)
+ => (socket :: <bound-socket>)
   let fd = socket.socket-file-descriptor;
-  let res = %bind(fd,
-                  sa.socket-address-sockaddr,
-                  sa.socket-address-sockaddr-length);
-  let socket = make(<bound-socket>,
-                    file-descriptor: fd,
-                    socket-address: sa);
-  values(socket, res)
+  %bind(fd,
+        sa.socket-address-sockaddr,
+        sa.socket-address-sockaddr-length);
+  make(<bound-socket>,
+       file-descriptor: fd,
+       socket-address: sa)
 end method bind;
 
 define inline method listen
     (socket :: <bound-socket>, backlog :: <integer>)
- => (socket :: <server-socket>, res)
+ => (socket :: <server-socket>)
   let fd = socket.socket-file-descriptor;
-  let res = %listen(fd, backlog);
-  let socket = make(<server-socket>,
-                    file-descriptor: fd,
-                    socket-address: socket.socket-address);
-  values(socket, res)
+  %listen(fd, backlog);
+  make(<server-socket>,
+       file-descriptor: fd,
+       socket-address: socket.socket-address)
 end method listen;
 
 define inline method accept
@@ -102,14 +100,13 @@ define inline method connect
   // the socket is a non-blocking socket.
   let fd = socket.socket-file-descriptor;
   let sockaddr = address-info.address-info-socket-address;
-  let res = %connect(fd,
-                     sockaddr.socket-address-sockaddr,
-                     sockaddr.socket-address-sockaddr-length);
-  let s = make(<ready-socket>,
-               file-descriptor: fd,
-               local-socket-address: get-sock-name(socket),
-               peer-socket-address: sockaddr);
-  values(s, res)
+  %connect(fd,
+           sockaddr.socket-address-sockaddr,
+           sockaddr.socket-address-sockaddr-length);
+  make(<ready-socket>,
+       file-descriptor: fd,
+       local-socket-address: get-sock-name(socket),
+       peer-socket-address: sockaddr)
 end method connect;
 
 define inline method close-socket (socket :: <socket>) => ()
