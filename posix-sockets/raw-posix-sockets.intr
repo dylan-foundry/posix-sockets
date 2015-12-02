@@ -3,6 +3,10 @@ Synopsis: Auto-generated bindings for the POSIX sockets API.
 Author: Bruce Mitchener, Jr.
 Copyright: See LICENSE file in this distribution.
 
+define simple-C-mapped-subtype <C-buffer-offset> (<C-void*>)
+  export-map <machine-word>, export-function: identity;
+end;
+
 define class <socket-error> (<simple-error>)
   constant slot socket-error-status :: <integer>,
     required-init-keyword: status:;
@@ -166,14 +170,18 @@ define interface
   function "listen" => %listen,
     map-result: <socket-status>;
   function "recv" => %recv,
+    map-argument: { 2 => <C-buffer-offset> },
     map-result: <socket-status>;
   function "recvfrom" => %recvfrom,
+    map-argument: { 2 => <C-buffer-offset> },
     map-result: <socket-status>;
   function "select" => %select,
     map-result: <socket-status>;
   function "send" => %send,
+    map-argument: { 2 => <C-buffer-offset> },
     map-result: <socket-status>;
   function "sendto" => %sendto,
+    map-argument: { 2 => <C-buffer-offset> },
     map-result: <socket-status>;
   function "setsockopt" => %setsockopt,
     map-result: <socket-status>;
