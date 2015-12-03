@@ -164,10 +164,12 @@ end method recv;
 define inline method send
     (socket :: <ready-socket>,
      data :: <byte-vector-like>,
-     #key offset :: <integer> = 0,
+     #key start: start-index :: <integer> = 0,
+          end: end-index :: false-or(<integer>) = #f,
           msg-oob? :: <boolean> = #f,
           msg-dontroute? :: <boolean> = #f)
  => (size-sent :: <integer>)
+  let end-index = end-index | data.size;
   let flags = 0;
   if (msg-oob?)
     flags := logior(flags, $MSG-OOB);
@@ -176,6 +178,6 @@ define inline method send
     flags := logior(flags, $MSG-DONTROUTE);
   end if;
   %send(socket.socket-file-descriptor,
-        byte-storage-offset-address(data, offset),
-        data.size - offset, flags)
+        byte-storage-offset-address(data, start-index),
+        end-index - start-index, flags)
 end method send;
