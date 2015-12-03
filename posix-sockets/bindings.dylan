@@ -3,7 +3,7 @@ Synopsis: Bindings for the raw functions.
 Author: Bruce Mitchener, Jr.
 Copyright: See LICENSE file in this distribution.
 
-define constant <byte-vector-like> = type-union(<buffer>, type-union(<byte-vector>, <byte-string>));
+define constant <byte-sequence> = type-union(<buffer>, type-union(<byte-vector>, <byte-string>));
 
 define method get-address-info
     (hostname :: <string>,
@@ -155,7 +155,7 @@ ignore(get-peer-name); // Nothing needs to use this yet.
 
 define inline method recv
     (socket :: <ready-socket>,
-     data :: <byte-vector-like>, flags :: <integer>)
+     data :: <byte-sequence>, flags :: <integer>)
  => (size-sent :: <integer>)
   %recv(socket.socket-file-descriptor,
         byte-storage-address(data), data.size, flags)
@@ -163,7 +163,7 @@ end method recv;
 
 define inline method send
     (socket :: <ready-socket>,
-     data :: <byte-vector-like>,
+     data :: <byte-sequence>,
      #key start: start-index :: <integer> = 0,
           end: end-index :: false-or(<integer>) = #f,
           msg-oob? :: <boolean> = #f,
