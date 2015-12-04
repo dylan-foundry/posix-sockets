@@ -156,10 +156,13 @@ ignore(get-peer-name); // Nothing needs to use this yet.
 define inline method recv
     (socket :: <ready-socket>,
      data :: <byte-sequence>,
-     #key msg-oob? :: <boolean> = #f,
+     #key start: start-index :: <integer> = 0,
+          end: end-index :: false-or(<integer>) = #f,
+          msg-oob? :: <boolean> = #f,
           msg-peek? :: <boolean> = #f,
           msg-waitall? :: <boolean> = #f)
  => (size-sent :: <integer>)
+  let end-index = end-index | data.size;
   let flags = 0;
   if (msg-oob?)
     flags := logior(flags, $MSG-OOB);
@@ -171,7 +174,8 @@ define inline method recv
     flags := logior(flags, $MSG-WAITALL);
   end if;
   %recv(socket.socket-file-descriptor,
-        byte-storage-address(data), data.size, flags)
+        byte-storage-offset-address(data, start-index),
+        end-index - start-index, flags)
 end method recv;
 
 define inline method send
