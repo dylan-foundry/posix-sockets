@@ -10,7 +10,7 @@ define sealed method socket-address-port
     (socket-address :: <socket-inet-address>)
  => (port :: false-or(<integer>))
   let s* = pointer-cast(<sockaddr-in*>, socket-address-sockaddr(socket-address));
-  sockaddr-in$sin-port(s*)
+  ntohs(sockaddr-in$sin-port(s*))
 end method socket-address-port;
 
 define sealed method socket-address-internet-address

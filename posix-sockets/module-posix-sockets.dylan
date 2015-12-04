@@ -4,6 +4,7 @@ define module posix-sockets
   use common-dylan;
   use c-ffi;
   use dylan-extensions;
+  use operating-system;
   use print;
   use streams;
 

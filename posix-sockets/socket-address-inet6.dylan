@@ -23,7 +23,7 @@ define sealed method socket-address-port
     (socket-address :: <socket-inet6-address>)
  => (port :: false-or(<integer>))
   let s* = pointer-cast(<sockaddr-in6*>, socket-address-sockaddr(socket-address));
-  sockaddr-in6$sin6-port(s*)
+  ntohs(sockaddr-in6$sin6-port(s*))
 end method socket-address-port;
 
 define method as
