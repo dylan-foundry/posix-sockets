@@ -111,9 +111,9 @@ define inline method connect
        peer-socket-address: sockaddr)
 end method connect;
 
-define inline method close-socket (socket :: <socket>) => ()
+define inline method close (socket :: <socket>, #key) => ()
   %close(socket.socket-file-descriptor);
-end method close-socket;
+end method close;
 
 define inline method shutdown-socket
     (socket :: <socket>, how :: <integer>)

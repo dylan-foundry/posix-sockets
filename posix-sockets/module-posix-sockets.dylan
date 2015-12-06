@@ -80,7 +80,6 @@ define module posix-sockets
          listen,
          accept,
          connect,
-         close-socket,
          recv,
          send,
          shutdown-socket;
