@@ -55,7 +55,6 @@ define interface
       "errno.h"
     },
     inline-functions: inline,
-    equate: {"char *" => <C-string>},
     import: {
       "accept",
       "bind",
