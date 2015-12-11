@@ -121,6 +121,7 @@ define interface
       "PF_INET6",
       "PF_UNSPEC",
       "SO_DEBUG",
+      "SO_KEEPALIVE",
       "SO_LINGER",
       "SO_RCVBUF",
       "SO_RCVTIMEO",
@@ -134,6 +135,8 @@ define interface
       "SHUT_RD",
       "SHUT_RDWR",
       "SHUT_WR",
+      "TCP_KEEPCNT",
+      "TCP_KEEPINTVL",
       "TCP_NODELAY"
     },
     import: {

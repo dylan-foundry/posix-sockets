@@ -43,6 +43,7 @@ define module posix-sockets
     $SHUT-RDWR,
     $SHUT-WR,
     $SO-DEBUG,
+    $SO-KEEPALIVE,
     $SO-LINGER,
     $SO-RCVBUF,
     $SO-RCVTIMEO,
@@ -53,6 +54,8 @@ define module posix-sockets
     $SOCK-RAW,
     $SOCK-STREAM,
     $SOL-SOCKET,
+    $TCP-KEEPCNT,
+    $TCP-KEEPINTVL,
     $TCP-NODELAY
   };
 
