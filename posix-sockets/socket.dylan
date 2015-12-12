@@ -3,7 +3,7 @@ Synopsis: Auto-generated bindings for the POSIX sockets API.
 Author: Bruce Mitchener, Jr.
 Copyright: See LICENSE file in this distribution.
 
-define primary class <socket> (<closable-object>)
+define primary abstract class <socket> (<closable-object>)
   constant slot socket-file-descriptor :: <integer>,
     required-init-keyword: file-descriptor:;
 end;
