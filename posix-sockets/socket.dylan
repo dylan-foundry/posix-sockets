@@ -8,6 +8,13 @@ define primary class <socket> (<closable-object>)
     required-init-keyword: file-descriptor:;
 end;
 
+// This is for people who have a file descriptor from
+// somewhere else, like via PQsocket in Postgres and
+// want to be able to interact with it in a select
+// or poll.
+define class <external-socket> (<socket>)
+end;
+
 define class <unbound-socket> (<socket>)
 end;
 

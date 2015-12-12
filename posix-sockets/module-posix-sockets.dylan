@@ -72,6 +72,7 @@ define module posix-sockets
          socket-address-port;
 
   export <socket>,
+         <external-socket>,
          <unbound-socket>,
          <bound-socket>,
          <server-socket>,
