@@ -39,9 +39,6 @@ define module posix-sockets
     $PF-INET,
     $PF-INET6,
     $PF-UNSPEC,
-    $SHUT-RD,
-    $SHUT-RDWR,
-    $SHUT-WR,
     $SO-DEBUG,
     $SO-KEEPALIVE,
     $SO-LINGER,
@@ -86,7 +83,8 @@ define module posix-sockets
          connect,
          recv,
          send,
-         shutdown-socket;
+         shutdown-input,
+         shutdown-output;
 
   export <ready-socket>,
          local-socket-address,

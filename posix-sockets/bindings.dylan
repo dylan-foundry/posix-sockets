@@ -115,11 +115,17 @@ define inline method close (socket :: <socket>, #key) => ()
   %close(socket.socket-file-descriptor);
 end method close;
 
-define inline method shutdown-socket
-    (socket :: <socket>, how :: <integer>)
+define inline method shutdown-input
+    (socket :: <socket>)
  => ()
-  %shutdown(socket.socket-file-descriptor, how);
-end method shutdown-socket;
+  %shutdown(socket.socket-file-descriptor, $SHUT-RD);
+end method shutdown-input;
+
+define inline method shutdown-output
+    (socket :: <socket>)
+ => ()
+  %shutdown(socket.socket-file-descriptor, $SHUT-WR);
+end method shutdown-output;
 
 define method get-sock-name
     (socket :: <socket>)
