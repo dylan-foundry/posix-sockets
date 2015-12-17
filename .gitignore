@@ -1,4 +1,5 @@
 _build
+.vscode
 *.hdp
 deft-package-local.json
 posix-sockets/module-raw-posix-sockets.dylan
