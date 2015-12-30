@@ -76,7 +76,7 @@ end method listen;
 
 define inline method accept
     (server-socket :: <server-socket>)
- => (socket :: <socket>)
+ => (socket :: <ready-socket>)
   with-stack-structure(their-address :: <sockaddr*>)
     clear-memory!(their-address, size-of(<sockaddr-storage>));
     with-stack-structure(address-size :: <C-int*>)
