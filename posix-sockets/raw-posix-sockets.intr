@@ -79,6 +79,7 @@ define interface
       "setsockopt",
       "shutdown",
       "socket",
+      "struct linger",
       "struct sockaddr",
       "struct sockaddr_in",
       "struct sockaddr_in6",
