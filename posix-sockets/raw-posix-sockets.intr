@@ -193,6 +193,9 @@ define interface
   function "shutdown" => %shutdown,
     map-result: <socket-status>;
 
+  struct "struct linger",
+    pointer-type-name: <linger*>;
+
   struct "struct sockaddr_in",
     pointer-type-name: <sockaddr-in*>;
   struct "struct sockaddr_in6",
