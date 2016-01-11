@@ -83,6 +83,8 @@ define module posix-sockets
          connect,
          recv,
          send,
+         set-socket-option,
+         set-socket-option/linger,
          shutdown-input,
          shutdown-output;
 

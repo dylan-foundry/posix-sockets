@@ -204,3 +204,31 @@ define inline method send
         byte-storage-offset-address(data, start-index),
         end-index - start-index, flags)
 end method send;
+
+define inline function set-socket-option
+    (socket :: <socket>,
+     level :: <integer>,
+     option :: <integer>,
+     option-value :: <C-void*>,
+     option-length :: <integer>)
+ => (result :: <integer>)
+  %setsockopt(socket.socket-file-descriptor, level,
+              option, option-value, option-length)
+end function set-socket-option;
+
+define inline function set-socket-option/linger
+    (socket :: <socket>,
+     linger? :: false-or(<integer>))
+ => ()
+  with-stack-structure (l :: <linger*>)
+    clear-memory!(l, size-of(<linger>));
+    if (linger?)
+      l.linger$l-onoff := 1;
+      l.linger$l-linger := linger?;
+    else
+      l.linger$l-onoff := 0;
+    end if;
+    set-socket-option(socket, $SOL-SOCKET, $SO-LINGER,
+                      pointer-cast(<c-void*>, l), size-of(<linger>));
+  end with-stack-structure;
+end function set-socket-option/linger;
