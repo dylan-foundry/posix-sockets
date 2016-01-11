@@ -49,10 +49,21 @@ end method print-object;
 define class <server-socket> (<socket>)
   constant slot socket-address :: <socket-address>,
     required-init-keyword: socket-address:;
+  keyword linger? = #f;
 end;
 
-define sealed domain make(singleton(<server-socket>));
 define sealed domain initialize(<server-socket>);
+
+define method make
+    (class == <server-socket>,
+     #rest init-keywords,
+     #key linger? :: false-or(<integer>) = #f,
+     #all-keys)
+ => (socket :: <socket>)
+  let s = apply(next-method, class, init-keywords);
+  set-socket-option/linger(s, linger?);
+  s
+end method make;
 
 define method print-object
     (s :: <server-socket>, stream :: <stream>)
