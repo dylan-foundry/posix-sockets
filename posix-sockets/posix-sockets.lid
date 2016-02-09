@@ -11,5 +11,6 @@ Files: library
        address-info
        socket
        stream-socket
+       datagram-socket
        bindings
        utils

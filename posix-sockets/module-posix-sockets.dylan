@@ -69,6 +69,8 @@ define module posix-sockets
          socket-address-port;
 
   export <socket>,
+         <datagram-socket>,
+         <udp-socket>,
          <external-socket>,
          <unbound-socket>,
          <bound-socket>,
