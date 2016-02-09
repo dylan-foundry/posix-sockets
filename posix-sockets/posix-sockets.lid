@@ -10,5 +10,6 @@ Files: library
        socket-address-unknown
        address-info
        socket
+       stream-socket
        bindings
        utils
